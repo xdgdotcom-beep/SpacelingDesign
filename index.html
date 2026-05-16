@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quotation HS143 — Greyscale Interiors</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --charcoal: #1a1a1a;
+    --ink: #2d2d2d;
+    --ash: #5a5a5a;
+    --silver: #9a9a9a;
+    --mist: #c8c8c8;
+    --fog: #e8e8e8;
+    --pearl: #f4f4f2;
+    --white: #fafaf9;
+    --gold: #c9a84c;
+    --gold-light: #e8d5a3;
+    --green: #2e7d52;
+    --red: #b5381b;
+    --radius: 6px; /* Softened edges for a more modern feel */
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { 
+    scroll-behavior: smooth; 
+    zoom: 60%; /* Forced 60% auto set zoom */
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--pearl);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.6;
+    padding-bottom: 0;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ─── PROGRESS BAR ─── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 4px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold-light), var(--gold));
+    z-index: 1000;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(201,168,76,0.5);
+  }
+
+  /* ─── TOP NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 64px;
+    background: rgba(26,26,26,0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    z-index: 900;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  }
+
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    letter-spacing: 0.25em;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  .nav-brand span { color: var(--gold); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--mist);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -6px; left: 0;
+    width: 0%; height: 2px;
+    background: var(--gold);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-actions { display: flex; gap: 12px; }
+
+  .btn-nav {
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+  }
+
+  .btn-outline {
+    background: rgba(201,168,76,0.05);
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold);
+  }
+
+  .btn-outline:hover { 
+    background: rgba(201,168,76,0.15); 
+    transform: translateY(-2px);
+  }
+
+  .btn-solid {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    color: var(--charcoal);
+    box-shadow: 0 4px 15px rgba(201,168,76,0.2);
+  }
+
+  .btn-solid:hover { 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(201,168,76,0.3);
+  }
+
+  /* ─── HERO SECTION ─── */
+  .hero {
+    min-height: 100vh;
+    background: var(--charcoal);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 50% 0%, rgba(201,168,76,0.1) 0%, transparent 60%),
+      radial-gradient(circle at 80% 80%, rgba(201,168,76,0.08) 0%, transparent 50%);
+  }
+
+  .hero-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-wordmark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+
+  .hero-wordmark-main {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 9vw, 96px);
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.15em;
+    line-height: 1;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  .hero-wordmark-sub {
+    font-size: 13px;
+    letter-spacing: 0.55em;
+    color: var(--silver);
+    text-transform: uppercase;
+  }
+
+  .hero-divider {
+    width: 100px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 32px auto;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  .hero-client {
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  .hero-client h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 4.5vw, 42px);
+    color: var(--white);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+
+  .hero-client p {
+    font-size: 15px;
+    color: var(--silver);
+    letter-spacing: 0.1em;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(201,168,76,0.2);
+    margin-top: 70px;
+    width: 100%;
+    max-width: 760px;
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: var(--radius);
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1.0s forwards;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+  }
+
+  .hero-stat {
+    background: rgba(26,26,26,0.92);
+    padding: 36px 24px;
+    text-align: center;
+    transition: background 0.3s;
+  }
+
+  .hero-stat:hover {
+    background: rgba(36,36,36,0.95);
+  }
+
+  .hero-stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .hero-stat-label {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--silver);
+    text-transform: uppercase;
+  }
+
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.4s forwards;
+  }
+
+  .hero-scroll-hint span {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--silver);
+    text-transform: uppercase;
+  }
+
+  .scroll-arrow {
+    width: 24px;
+    height: 24px;
+    border-right: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+    transform: rotate(45deg);
+    animation: bounce 1.5s ease infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: rotate(45deg) translateY(0); }
+    50% { transform: rotate(45deg) translateY(8px); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── MAIN WRAPPER ─── */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px 100px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── SECTION SHELLS ─── */
+  section { padding: 90px 0; border-bottom: 1px solid var(--fog); }
+  section:last-child { border-bottom: none; }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .section-label-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    background: rgba(201,168,76,0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+  }
+
+  .section-label-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--mist), transparent);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 46px);
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .section-sub {
+    font-size: 15px;
+    color: var(--ash);
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── WORK ITEMS TABLE ─── */
+  .quote-table-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--fog);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+    background: var(--white);
+  }
+
+  .quote-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .quote-table thead {
+    background: var(--charcoal);
+    position: sticky;
+    top: 64px;
+    z-index: 10;
+  }
+
+  .quote-table thead th {
+    padding: 20px 24px;
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--mist);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .quote-table thead th:first-child { width: 60px; }
+
+  .quote-table tbody tr {
+    border-bottom: 1px solid var(--fog);
+    transition: background 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  .quote-table tbody tr:last-child { border-bottom: none; }
+  .quote-table tbody tr.main-row:hover { 
+    background: rgba(201,168,76,0.03); 
+  }
+
+  .quote-table td {
+    padding: 24px;
+    vertical-align: top;
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  .td-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--silver);
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .item-title {
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .item-desc {
+    font-size: 13px;
+    color: var(--ash);
+    line-height: 1.6;
+    max-width: 500px;
+  }
+
+  .item-spec-tag {
+    display: inline-block;
+    background: var(--pearl);
+    border: 1px solid var(--fog);
+    color: var(--ash);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin: 4px 4px 0 0;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  .item-area-badge {
+    display: inline-block;
+    background: rgba(26,26,26,0.04);
+    border: 1px solid var(--fog);
+    font-size: 11px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .item-size {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--charcoal);
+    white-space: nowrap;
+    background: var(--pearl);
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--fog);
+  }
+
+  /* ─── TOTAL ROW ─── */
+  .total-row td {
+    background: linear-gradient(135deg, var(--charcoal), var(--ink));
+    color: var(--white);
+    padding: 28px 24px;
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+  }
+
+  .total-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--gold);
+    white-space: nowrap;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  .total-words {
+    font-size: 12px;
+    color: var(--mist);
+    margin-top: 4px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── EXCLUSIONS ─── */
+  .exclusions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .excl-pill {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--white);
+    border: 1px solid var(--fog);
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    color: var(--ash);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+  }
+
+  .excl-pill:hover { 
+    border-color: var(--gold); 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(201,168,76,0.1);
+  }
+
+  .excl-icon {
+    width: 32px;
+    height: 32px;
+    background: rgba(201,168,76,0.1);
+    color: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  /* ─── PAYMENT SECTION ─── */
+  .payment-visual {
+    background: var(--charcoal);
+    border-radius: var(--radius);
+    padding: 56px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  }
+
+  .payment-visual::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(201,168,76,0.15), transparent 70%);
+  }
+
+  .payment-total-display {
+    text-align: center;
+    margin-bottom: 56px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .payment-total-display .label {
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: var(--silver);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .payment-total-display .amount {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 7vw, 72px);
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  }
+
+  .payment-total-display .words {
+    font-size: 14px;
+    color: var(--mist);
+    margin-top: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── PAYMENT TIMELINE ─── */
+  .payment-timeline {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pay-term {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    position: relative;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+  }
+
+  .pay-term:hover { 
+    background: rgba(255,255,255,0.06); 
+    border-color: rgba(201,168,76,0.4);
+    transform: translateY(-4px);
+  }
+
+  .pay-term-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    margin-bottom: 12px;
+    display: inline-block;
+    background: rgba(201,168,76,0.1);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  .pay-term-trigger {
+    font-size: 14px;
+    color: var(--mist);
+    margin-bottom: 24px;
+    line-height: 1.5;
+    height: 42px;
+  }
+
+  .pay-term-pct {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .pay-term-amt {
+    font-size: 14px;
+    color: var(--gold);
+    margin-top: 8px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .pay-bar {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold-light), var(--gold));
+    transition: width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  /* ─── DURATION CARD ─── */
+  .duration-card {
+    background: var(--white);
+    border: 1px solid var(--fog);
+    border-left: 6px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    transition: transform 0.3s ease;
+  }
+
+  .duration-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+  }
+
+  .duration-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 96px;
+    font-weight: 700;
+    color: var(--charcoal);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .duration-num span { color: var(--gold); font-size: 32px; font-family: 'DM Sans', sans-serif;}
+
+  .duration-text h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 12px;
+  }
+
+  .duration-text p { font-size: 15px; color: var(--ash); line-height: 1.7; }
+
+  /* ─── TERMS LIST ─── */
+  .terms-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .terms-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    background: var(--white);
+    border: 1px solid var(--fog);
+    padding: 24px 28px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    color: var(--ash);
+    line-height: 1.6;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  }
+
+  .terms-list li:hover { 
+    border-color: var(--gold); 
+    box-shadow: 0 6px 20px rgba(201,168,76,0.08);
+    transform: translateX(4px);
+  }
+
+  .terms-list .ti {
+    width: 28px;
+    height: 28px;
+    background: var(--charcoal);
+    color: var(--gold);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  /* ─── SIGNATURE SECTION ─── */
+  .signature-section {
+    background: var(--charcoal);
+    border-radius: var(--radius);
+    padding: 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: end;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .signature-section::after {
+    content: '';
+    position: absolute;
+    bottom: -50px; left: 50%;
+    width: 400px; height: 100px;
+    background: var(--gold);
+    filter: blur(80px);
+    opacity: 0.1;
+    border-radius: 50%;
+  }
+
+  .sig-block h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--white);
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+
+  .sig-block p {
+    font-size: 14px;
+    color: var(--silver);
+    margin-bottom: 48px;
+    letter-spacing: 0.05em;
+  }
+
+  .sig-line {
+    border-top: 1px solid rgba(201,168,76,0.5);
+    padding-top: 14px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sig-line span {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--silver);
+    text-transform: uppercase;
+  }
+
+  .sig-company-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-align: right;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .sig-company-sub {
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    color: var(--silver);
+    text-transform: uppercase;
+    text-align: right;
+    margin-bottom: 20px;
+  }
+
+  .sig-contacts {
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--mist);
+    line-height: 2;
+  }
+
+  .sig-contacts a { 
+    color: var(--gold); 
+    text-decoration: none; 
+    transition: color 0.2s;
+  }
+  .sig-contacts a:hover { color: var(--gold-light); }
+
+  /* ─── FLOATING TOOLBAR ─── */
+  .floating-toolbar {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 800;
+  }
+
+  .fab {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    position: relative;
+    backdrop-filter: blur(8px);
+  }
+
+  .fab-main {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    color: var(--charcoal);
+    font-size: 24px;
+  }
+
+  .fab-main:hover { transform: scale(1.1) translateY(-4px); box-shadow: 0 10px 25px rgba(201,168,76,0.3); }
+
+  .fab-secondary {
+    background: rgba(26,26,26,0.8);
+    color: var(--mist);
+    border: 1px solid rgba(201,168,76,0.4);
+  }
+
+  .fab-secondary:hover { 
+    background: var(--ink); 
+    color: var(--gold); 
+    transform: scale(1.1) translateY(-2px); 
+    border-color: var(--gold);
+  }
+
+  .fab-tooltip {
+    position: absolute;
+    right: 70px;
+    background: rgba(26,26,26,0.9);
+    color: var(--white);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    padding: 8px 14px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s;
+    transform: translateX(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .fab:hover .fab-tooltip { opacity: 1; transform: translateX(0); }
+
+  /* ─── QUOTE ID BADGE ─── */
+  .quote-id-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--white);
+    border: 1px solid var(--fog);
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--charcoal);
+    margin-bottom: 32px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  }
+
+  .quote-id-badge .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s ease infinite;
+    box-shadow: 0 0 8px var(--gold);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  /* ─── ACCORDION EXPAND ─── */
+  .row-detail {
+    display: none;
+    background: rgba(201,168,76,0.02);
+  }
+
+  .row-detail.open { display: table-row; }
+
+  .row-detail td {
+    padding: 0 24px 24px 84px;
+    border-top: none;
+  }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .detail-chip {
+    background: var(--white);
+    border: 1px solid var(--fog);
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: var(--ash);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+  }
+
+  .detail-chip strong { display: block; font-size: 13px; color: var(--charcoal); margin-bottom: 4px; }
+
+  /* ─── ROOM BADGES ─── */
+  .room-chip {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .room-kitchen { background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; }
+  .room-bedroom { background: #e8eaf6; color: #3949ab; border: 1px solid #c5cae9; }
+  .room-hall    { background: #e0f2f1; color: #00695c; border: 1px solid #b2dfdb; }
+  .room-toilet  { background: #fce4ec; color: #c62828; border: 1px solid #f8bbd0; }
+  .room-ff      { background: #f3e5f5; color: #6a1b9a; border: 1px solid #e1bee7; }
+  .room-work    { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+
+  /* ─── MOBILE BOTTOM NAV (APP-LIKE) ─── */
+  .mobile-bottom-nav { display: none; }
+
+  /* ─── RESPONSIVE & ADVANCED MOBILE UI ─── */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    
+    /* Reveal Mobile Bottom Nav */
+    .mobile-bottom-nav {
+      display: flex;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(26,26,26,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 1000;
+      justify-content: space-around;
+      padding: 16px 0 calc(16px + env(safe-area-inset-bottom));
+      border-top: 1px solid rgba(201,168,76,0.2);
+      box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+    }
+
+    .mobile-bottom-nav a {
+      color: var(--silver);
+      text-decoration: none;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .mobile-bottom-nav a span { font-size: 20px; }
+    .mobile-bottom-nav a:hover, .mobile-bottom-nav a:active { color: var(--gold); }
+
+    /* Prevent content hiding behind bottom nav */
+    body { padding-bottom: 90px; }
+
+    /* Adjust Toolbars */
+    .floating-toolbar { bottom: 100px; right: 20px; }
+    
+    .hero { padding: 80px 24px 60px; }
+    .hero-stats { grid-template-columns: 1fr; gap: 8px; background: transparent; border: none; }
+    .hero-stat { border-radius: var(--radius); border: 1px solid rgba(201,168,76,0.15); }
+    
+    main { padding: 0 16px 60px; }
+
+    /* Transform Table to Advanced Mobile Cards */
+    .quote-table-wrap {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      overflow-x: visible;
+    }
+    .quote-table { display: block; }
+    .quote-table thead { display: none; }
+    .quote-table tbody { display: block; }
+    
+    .quote-table tbody tr.main-row {
+      display: flex;
+      flex-direction: column;
+      background: var(--white);
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      border: 1px solid var(--fog);
+      padding: 24px;
+      position: relative;
+    }
+
+    .quote-table td {
+      display: block;
+      padding: 0;
+      border: none;
+      margin-bottom: 12px;
+    }
+    .quote-table td:last-child { margin-bottom: 0; }
+
+    /* Position the ID Number as a top-right badge on the card */
+    .td-num {
+      position: absolute;
+      top: 24px; right: 24px;
+      background: var(--fog);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--charcoal);
+    }
+
+    /* Style the internal details inside the mobile card */
+    .row-detail td { padding: 0; }
+    .row-detail.open { 
+      display: block; 
+      background: transparent;
+      padding: 0 24px 24px 24px;
+      margin-top: -16px;
+      border-radius: 0 0 12px 12px;
+      border: 1px solid var(--fog);
+      border-top: none;
+      background: var(--white);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+    }
+
+    /* Adjust specific layouts for stacking */
+    .payment-timeline { grid-template-columns: 1fr; }
+    .signature-section { grid-template-columns: 1fr; padding: 40px 24px; text-align: center;}
+    .sig-contacts, .sig-company-name, .sig-company-sub { text-align: center; }
+    .duration-card { flex-direction: column; gap: 24px; text-align: center; padding: 32px 24px; }
+    .duration-num { font-size: 72px; }
+    .payment-visual { padding: 32px 20px; }
+    
+    .total-row td { 
+      border-radius: 12px; 
+      text-align: center;
+      padding: 32px 20px;
+    }
+  }
+
+  /* ─── ANIMATIONS ON SCROLL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── PRINT STYLES ─── */
+  @media print {
+    html { zoom: 100%; } /* Reset zoom for accurate printing */
+    nav, .floating-toolbar, .hero-scroll-hint, #progress-bar, .mobile-bottom-nav { display: none !important; }
+    .hero { min-height: auto; padding: 40px; page-break-after: always; }
+    main { padding: 0 16px 40px; max-width: 100%; }
+    body { background: white; padding-bottom: 0; }
+    .quote-table tbody tr.main-row { page-break-inside: avoid; }
+    .payment-visual { break-inside: avoid; }
+    .signature-section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav>
+  <div class="nav-brand">Grey<span>scale</span> Interiors</div>
+  <ul class="nav-links">
+    <li><a href="#intro">Letter</a></li>
+    <li><a href="#scope">Scope</a></li>
+    <li><a href="#payment">Payment</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+    <li><a href="#terms">Terms</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-nav btn-outline" onclick="window.print()">⎙ Print</button>
+    <button class="btn-nav btn-solid" onclick="copyQuoteRef()">Copy Ref</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <p class="hero-meta">Quotation Reference · HS143 · 10 May 2026</p>
+  <div class="hero-wordmark">
+    <div class="hero-wordmark-main">GREYSCALE</div>
+    <div class="hero-wordmark-sub">Interiors &amp; Builders</div>
+  </div>
+  <div class="hero-divider"></div>
+  <div class="hero-client">
+    <h2>Mr. Ajmal &amp; Family</h2>
+    <p>Residential Project · Nadapuram</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-val">18</span>
+      <span class="hero-stat-label">Work Items</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-val">₹36.92L</span>
+      <span class="hero-stat-label">Total Value</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-val">90</span>
+      <span class="hero-stat-label">Days to Complete</span>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>Explore Quotation</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<main>
+
+  <section id="intro" style="padding-top: 50px;">
+    <div class="reveal">
+      <p style="font-family: 'DM Mono', monospace; font-size: 13px; color: var(--silver); margin-bottom: 24px;">Date: 10-May-2026</p>
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; color: var(--charcoal); margin-bottom: 24px; line-height: 1.4;">
+        To,<br>Mr. Ajmal & Family,<br>Nadapuram
+      </h3>
+      <div style="background: var(--white); border-left: 4px solid var(--gold); padding: 32px 40px; border-radius: var(--radius); border-top: 1px solid var(--fog); border-right: 1px solid var(--fog); border-bottom: 1px solid var(--fog); box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+        <p style="font-size: 15px; color: var(--ink); line-height: 1.8; margin-bottom: 20px;">
+          <strong>Dear Sir/Madam,</strong><br><br>
+          With reference to your enquiry, we are happy to quote the best rate for your requirements. Please go through the below mentioned quotation and take a favorable decision as the earliest.
+        </p>
+        <p style="font-size: 14px; color: var(--ash); line-height: 1.6; background: rgba(201,168,76,0.05); padding: 16px; border-radius: 4px; border: 1px solid rgba(201,168,76,0.2);">
+          Please feel free to contact with <strong>+91 97450 40509</strong> or <strong>+91 70253 95219</strong> in case of any queries on this regard.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="scope">
+    <div class="section-label reveal">
+      <span class="section-label-num">01 · CARPENTRY WORK</span>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="reveal">
+      <h2 class="section-title">Scope of Work</h2>
+      <p class="section-sub" style="margin-bottom: 32px;">Tap any row (or card) to expand detailed specifications</p>
+    </div>
+
+    <div class="quote-id-badge reveal">
+      <span class="dot"></span>
+      QUOTATION-HS143 &nbsp;|&nbsp; RESIDENTIAL &nbsp;|&nbsp; NADAPURAM
+    </div>
+
+    <div class="quote-table-wrap reveal">
+      <table class="quote-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Size (cm)</th>
+          </tr>
+        </thead>
+        <tbody id="itemsBody">
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label reveal">
+      <span class="section-label-num">02 · EXCLUSIONS</span>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="reveal" style="margin-bottom:36px;">
+      <h2 class="section-title">Not Included</h2>
+      <p class="section-sub">The following are outside the scope of this quotation</p>
+    </div>
+    <div class="exclusions-grid reveal" id="exclGrid"></div>
+  </section>
+
+  <section id="timeline">
+    <div class="section-label reveal">
+      <span class="section-label-num">03 · TIMELINE</span>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="reveal" style="margin-bottom:36px;">
+      <h2 class="section-title">Duration of Execution</h2>
+      <p class="section-sub">Commences upon receipt of first term payment</p>
+    </div>
+    <div class="duration-card reveal">
+      <div class="duration-num">90<span> days</span></div>
+      <div class="duration-text">
+        <h3>Project Completion Guarantee</h3>
+        <p>The work will be completed within 90 days after the confirmation of the quotation. The quotation will be considered "confirmed" only after the receipt of the first term payment. Any delays caused by client-side factors will be treated separately.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="payment">
+    <div class="section-label reveal">
+      <span class="section-label-num">04 · PAYMENT</span>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="reveal" style="margin-bottom:40px;">
+      <h2 class="section-title">Terms of Payment</h2>
+      <p class="section-sub">Structured in milestone-linked tranches</p>
+      
+      <div style="margin-top: 24px; font-size: 14px; color: var(--ash); border-left: 3px solid var(--gold); padding-left: 20px; max-width: 800px; line-height: 1.7; background: var(--white); padding: 20px 24px; border-radius: 4px; border: 1px solid var(--fog); box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+        <strong>Note on terms:</strong> For any approved work, 60% of the quoted amount should be paid upon confirmation as the first term. Second term of the payment will be 30% of the quoted amount which should be paid upon the completion of the framework/structure and the remaining 10% should be paid upon the completion of the project. The payment terms finalized for this project will be as tabulated below:
+      </div>
+    </div>
+
+    <div class="payment-visual reveal">
+      <div class="payment-total-display">
+        <p class="label">Total Contract Value</p>
+        <p class="amount">₹36,92,000</p>
+        <p class="words">Thirty-Six lakhs Ninty-Two thousand and Rupees only</p>
+      </div>
+      <div class="payment-timeline">
+        <div class="pay-term">
+          <p class="pay-term-num">TERM 01</p>
+          <p class="pay-term-trigger">Upon confirmation of project</p>
+          <p class="pay-term-pct">45%</p>
+          <p class="pay-term-amt">₹16,61,400</p>
+          <div class="pay-bar" style="width:45%"></div>
+        </div>
+        <div class="pay-term">
+          <p class="pay-term-num">TERM 02</p>
+          <p class="pay-term-trigger">On completion of structure / framework</p>
+          <p class="pay-term-pct">45%</p>
+          <p class="pay-term-amt">₹16,61,400</p>
+          <div class="pay-bar" style="width:45%"></div>
+        </div>
+        <div class="pay-term">
+          <p class="pay-term-num">TERM 03</p>
+          <p class="pay-term-trigger">On project completion</p>
+          <p class="pay-term-pct">10%</p>
+          <p class="pay-term-amt">₹3,69,200</p>
+          <div class="pay-bar" style="width:10%"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="terms">
+    <div class="section-label reveal">
+      <span class="section-label-num">05 · CONDITIONS</span>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="reveal" style="margin-bottom:36px;">
+      <h2 class="section-title">Terms &amp; Conditions</h2>
+      <p class="section-sub">Please review and acknowledge before commencement</p>
+    </div>
+    <ul class="terms-list reveal" id="termsList"></ul>
+  </section>
+
+  <section>
+    <div class="section-label reveal">
+      <span class="section-label-num">06 · AGREEMENT</span>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="reveal" style="margin-bottom:36px;">
+      <h2 class="section-title">Sign &amp; Confirm</h2>
+      <p class="section-sub">A signed copy must be submitted to Greyscale Interiors before work commences</p>
+    </div>
+    <div class="signature-section reveal">
+      <div class="sig-block">
+        <h3>Signature of the client</h3>
+        <p>Mr. Ajmal &amp; Family, Nadapuram</p>
+        <div class="sig-line">
+          <span>Signature</span>
+          <span>Date</span>
+        </div>
+      </div>
+      <div>
+        <p class="sig-company-name">Greyscale</p>
+        <p class="sig-company-sub">Interiors & Builders</p>
+        <p class="sig-contacts">
+          <a href="tel:+919745040509">+91 97450 40509</a><br>
+          <a href="tel:+917025395219">+91 70253 95219</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="mobile-bottom-nav">
+  <a href="#intro"><span>✉️</span>Letter</a>
+  <a href="#scope"><span>📋</span>Scope</a>
+  <a href="#payment"><span>💳</span>Pay</a>
+  <a href="#terms"><span>📝</span>Terms</a>
+</div>
+
+<div class="floating-toolbar">
+  <button class="fab fab-secondary" onclick="window.print()" title="Print">
+    🖨
+    <span class="fab-tooltip">Print / Save PDF</span>
+  </button>
+  <button class="fab fab-secondary" onclick="copyQuoteRef()" title="Copy">
+    📋
+    <span class="fab-tooltip">Copy Quote Ref</span>
+  </button>
+  <button class="fab fab-main" onclick="scrollToTop()" title="Top">
+    ↑
+    <span class="fab-tooltip">Back to top</span>
+  </button>
+</div>
+
+<script>
+/* ── DATA ── */
+const ITEMS = [
+  {
+    num: 1,
+    title: "KITCHEN — Bottom & Middle Cabinet",
+    location: "Kitchen",
+    roomClass: "room-kitchen",
+    size: "400×330",
+    specs: ["17mm WPC boxing","1mm laminate shutters","Profile handle","Pull out: 1 nos","Tandem 4\": 1 nos","Tandem 6\": 1 nos","Tandem 8\": 4 nos","3-GTBT: 1 nos"],
+    desc: "Bottom & middle cabinet boxing in 17mm WPC. All exposed areas and shutters finished in 1mm laminate sheet with profile handles."
+  },
+  {
+    num: 2,
+    title: "WORK AREA — Bottom & Middle Cabinet",
+    location: "Work Area",
+    roomClass: "room-work",
+    size: "620×510",
+    specs: ["17mm WPC boxing","1mm laminate shutters","Profile handle","Pull out: 1 nos","Tandem 6\": 1 nos","Tandem 8\": 4 nos","3-GTBT: 1 nos"],
+    desc: "Bottom & middle cabinet boxing in 17mm WPC. All exposed areas and shutters finished in 1mm laminate sheet with profile handles."
+  },
+  {
+    num: 3,
+    title: "GUEST LIVING — Opening & Wall Panelling",
+    location: "Guest Living Area",
+    roomClass: "room-hall",
+    size: "400×450",
+    specs: ["16mm 710 grade plywood","1mm mica finish","Fevicol fixed","Louver work included"],
+    desc: "Wall and opening panelling made of 16mm 710 grade plywood finished in 1mm mica, fixed with Fevicol as per design. Louver work included."
+  },
+  {
+    num: 4,
+    title: "HALL — Stair Area & Console",
+    location: "Stair Area & Console",
+    roomClass: "room-hall",
+    size: "510×507",
+    specs: ["16mm 710 grade plywood","1mm mica door","0.8mm inner mica","Fevicol fixed"],
+    desc: "Stair bottom shelf and console made of 16mm 710 grade plywood. Doors in 1mm mica and inner area in 0.8mm mica, fixed with Fevicol."
+  },
+  {
+    num: 5,
+    title: "HALL — Stair Wall Work",
+    location: "Stair Area",
+    roomClass: "room-hall",
+    size: "510×507",
+    specs: ["16mm 710 grade plywood","1mm mica finish","Charcoal louver","Nail-free silicon + Fevicol"],
+    desc: "Stair wall in 16mm 710 grade plywood finished in 1mm mica with charcoal louver, fixed with Fevicol and nail-free silicon per design."
+  },
+  {
+    num: 6,
+    title: "HALL — Wash Basin Counter",
+    location: "Hall",
+    roomClass: "room-hall",
+    size: "510×507",
+    specs: ["17mm WPC 0.7 density","0.8mm Mica finish","HeatX fixed"],
+    desc: "Wash basin counter made of 17mm WPC (0.7 density) finished in 0.8mm Mica, fixed in HeatX."
+  },
+  {
+    num: 7,
+    title: "GF BEDROOM-1 — Wardrobe & Mirror",
+    location: "GF Bedroom 1 (Front)",
+    roomClass: "room-bedroom",
+    size: "220×150",
+    specs: ["4-door wardrobe","16mm 710 grade plywood","0.8mm mica doors","0.8mm inner mica","Fevicol fixed"],
+    desc: "4-door wall wardrobe with mirror in 16mm 710 grade plywood. Doors in 0.8mm mica, inner in 0.8mm mica, fixed with Fevicol."
+  },
+  {
+    num: 8,
+    title: "GF BEDROOM-1 — Bedcot, Headboard & Side Table",
+    location: "GF Bedroom 1 (Front)",
+    roomClass: "room-bedroom",
+    size: "380×410",
+    specs: ["16mm / 12mm 710 grade plywood","Cushion covering","As per drawing"],
+    desc: "Bedcot, headboard, side table and table with cushion covering made of 16mm/12mm 710 grade plywood as per drawing."
+  },
+  {
+    num: 9,
+    title: "GF KIDS ROOM-2 — Wardrobe & Mirror",
+    location: "GF Kids Room (Front)",
+    roomClass: "room-bedroom",
+    size: "360×400",
+    specs: ["2 wardrobes","4-door each","16mm 710 grade plywood","0.8mm mica doors","Fevicol fixed"],
+    desc: "Two 4-door wardrobes with mirror in 16mm 710 grade plywood. Doors and inner area in 0.8mm mica, fixed with Fevicol."
+  },
+  {
+    num: 10,
+    title: "GF KIDS ROOM-2 — Bedcot & Side Table",
+    location: "GF Kids Room (Front)",
+    roomClass: "room-bedroom",
+    size: "360×400",
+    specs: ["16mm / 12mm 710 grade plywood","Cushion covering","As per drawing"],
+    desc: "Bedcot, headboard and side table with cushion covering in 16mm/12mm 710 grade plywood as per drawing."
+  },
+  {
+    num: 11,
+    title: "FF BEDROOM-3 — Wardrobe & Mirror",
+    location: "FF Bedroom 3 (Front)",
+    roomClass: "room-ff",
+    size: "220×150",
+    specs: ["4-door wardrobe","16mm 710 grade plywood","0.8mm mica doors","Fevicol fixed"],
+    desc: "Bedroom wall 4-door wardrobe with mirror in 16mm 710 grade plywood. Doors in 0.8mm mica, inner in 0.8mm mica."
+  },
+  {
+    num: 12,
+    title: "FF BEDROOM-3 — Bedcot & Side Table",
+    location: "FF Bedroom 3 (Front)",
+    roomClass: "room-ff",
+    size: "380×410",
+    specs: ["16mm / 12mm 710 grade plywood","Cushion covering","As per drawing"],
+    desc: "Bedcot, headboard and side table with cushion covering in 16mm/12mm 710 grade plywood as per drawing."
+  },
+  {
+    num: 13,
+    title: "FF BEDROOM-4 — Wardrobe & Mirror",
+    location: "FF Bedroom 4 (Front)",
+    roomClass: "room-ff",
+    size: "360×400",
+    specs: ["4-door wardrobe","16mm 710 grade plywood","0.8mm mica doors","Fevicol fixed"],
+    desc: "Bedroom wall 4-door wardrobe with mirror in 16mm 710 grade plywood. All mica finishes fixed with Fevicol."
+  },
+  {
+    num: 14,
+    title: "FF BEDROOM-4 — Bedcot & Side Table",
+    location: "FF Bedroom 4 (Front)",
+    roomClass: "room-ff",
+    size: "360×400",
+    specs: ["16mm / 12mm 710 grade plywood","Cushion covering","As per drawing"],
+    desc: "Bedcot, headboard and side table with cushion covering in 16mm/12mm 710 grade plywood as per drawing."
+  },
+  {
+    num: 15,
+    title: "FF BEDROOM-5 — Wardrobe & Mirror",
+    location: "FF Bedroom 5 (Back)",
+    roomClass: "room-ff",
+    size: "360×400",
+    specs: ["4-door wardrobe","16mm 710 grade plywood","0.8mm mica finish","Fevicol fixed"],
+    desc: "Bedroom wall 4-door wardrobe with mirror in 16mm 710 grade plywood. Doors and inner area in 0.8mm mica."
+  },
+  {
+    num: 16,
+    title: "FF BEDROOM-5 — Bedcot & Side Table",
+    location: "FF Bedroom 5 (Back)",
+    roomClass: "room-ff",
+    size: "360×400",
+    specs: ["16mm / 12mm 710 grade plywood","Cushion covering","As per drawing"],
+    desc: "Bedcot, headboard and side table with cushion covering in 16mm/12mm 710 grade plywood as per drawing."
+  },
+  {
+    num: 17,
+    title: "FF LIVING — Wall Panelling, Console & Study Table",
+    location: "FF Living (Wall partition / Study)",
+    roomClass: "room-hall",
+    size: "366×315",
+    specs: ["16mm 710 grade plywood","0.8mm mica finish","Fevicol fixed","Console included"],
+    desc: "Wall panelling and console in 16mm 710 grade plywood finished in 0.8mm mica, fixed with Fevicol. Study table included as per design."
+  },
+  {
+    num: 18,
+    title: "TOILETS (5 nos) — Wash Units",
+    location: "All Toilets",
+    roomClass: "room-toilet",
+    size: "—",
+    specs: ["5 units","17mm WPC 0.7 density","0.8mm Mica finish","HeatX fixed"],
+    desc: "Wash basin unit in each toilet (5 nos) made of 17mm WPC (0.7 density) finished in 0.8mm Mica, fixed in HeatX."
+  }
+];
+
+const EXCLUSIONS = [
+  { icon: "🏗", label: "Industrial Work" },
+  { icon: "🪟", label: "Curtain" },
+  { icon: "🖌", label: "Painting" },
+  { icon: "🪟", label: "Ceiling Work" },
+  { icon: "🌿", label: "Landscape" },
+  { icon: "🪵", label: "Tile Work" },
+  { icon: "💡", label: "Light, switch, electrical work etc" },
+  { icon: "🚿", label: "Plumbing and sanitary fittings" },
+  { icon: "🍳", label: "Hood and hob, sink etc" },
+  { icon: "🏛", label: "Any other civil work" }
+];
+
+const TERMS = [
+  "Supply of electric power, water and clean working space has to be provided by the client.",
+  "Any required sanctions to work such as regulations by the government or work permit from the landlord should be obtained by the client.",
+  "Any entry permits to the work site, if required, should be provided by the client for the workers, supervisors and design professionals of greyscale interiors.",
+  "Any extra works apart from the works listed in the quotation should be approved by the client and it will be extra chargeable.",
+  "For all payments done by client, a receipt should be sought and kept by the client.",
+  "Client should provide a single person of contact in case of absence of the client in person at the work site.",
+  "A copy of this document should be signed and handed over to greyscale interiors before the commencement of the work; and a copy of the same should be kept with the client for any further reference.",
+  "Greyscale interiors will be communicating with only one person from the client side. Oppinions and communications from different people will not be entertained."
+];
+
+/* ── RENDER ITEMS ── */
+const tbody = document.getElementById('itemsBody');
+
+ITEMS.forEach((item, idx) => {
+  // Main row
+  const tr = document.createElement('tr');
+  tr.className = 'main-row';
+  tr.dataset.idx = idx;
+  tr.innerHTML = `
+    <td class="td-num">${String(item.num).padStart(2,'0')}</td>
+    <td>
+      <div class="item-title">${item.title}</div>
+      <div class="item-desc">${item.desc}</div>
+      <div style="margin-top:12px">
+        ${item.specs.map(s=>`<span class="item-spec-tag">${s}</span>`).join('')}
+      </div>
+    </td>
+    <td><span class="item-area-badge room-chip ${item.roomClass}">${item.location}</span></td>
+    <td><span class="item-size">${item.size}</span></td>
+  `;
+  tr.addEventListener('click', () => {
+    const det = document.getElementById('det-'+idx);
+    det.classList.toggle('open');
+  });
+  tbody.appendChild(tr);
+
+  // Detail row (hidden by default)
+  const detRow = document.createElement('tr');
+  detRow.className = 'row-detail';
+  detRow.id = 'det-'+idx;
+  detRow.innerHTML = `<td colspan="4">
+    <div class="detail-grid">
+      <div class="detail-chip"><strong>Location</strong>${item.location}</div>
+      <div class="detail-chip"><strong>Size</strong>${item.size} cm</div>
+      <div class="detail-chip"><strong>Item #</strong>${String(item.num).padStart(2,'0')}</div>
+      ${item.specs.map(s=>`<div class="detail-chip"><strong>Spec</strong>${s}</div>`).join('')}
+    </div>
+  </td>`;
+  tbody.appendChild(detRow);
+});
+
+// Total row
+const totalRow = document.createElement('tr');
+totalRow.className = 'total-row main-row';
+totalRow.innerHTML = `
+  <td colspan="2">
+    <div class="total-amount">₹36,92,000</div>
+    <div class="total-words">Thirty-Six lakhs Ninty-Two thousand and Rupees only</div>
+  </td>
+  <td colspan="2" style="color:var(--silver);font-size:12px;letter-spacing:0.1em;text-align:right;padding-right:24px; vertical-align: middle;">TOTAL COST</td>
+`;
+tbody.appendChild(totalRow);
+
+/* ── RENDER EXCLUSIONS ── */
+const exclGrid = document.getElementById('exclGrid');
+EXCLUSIONS.forEach(e => {
+  const div = document.createElement('div');
+  div.className = 'excl-pill';
+  div.innerHTML = `<div class="excl-icon">${e.icon}</div><span>${e.label}</span>`;
+  exclGrid.appendChild(div);
+});
+
+/* ── RENDER TERMS ── */
+const termsList = document.getElementById('termsList');
+TERMS.forEach((t, i) => {
+  const li = document.createElement('li');
+  li.innerHTML = `<span class="ti">${String(i+1).padStart(2,'0')}</span><span>${t}</span>`;
+  termsList.appendChild(li);
+});
+
+/* ── SCROLL PROGRESS ── */
+window.addEventListener('scroll', () => {
+  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const progress = (scrollTop / scrollHeight) * 100;
+  document.getElementById('progress-bar').style.width = progress + '%';
+});
+
+/* ── REVEAL ON SCROLL ── */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── UTILS ── */
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+function copyQuoteRef() {
+  navigator.clipboard.writeText('QUOTATION-HS143 · Greyscale Interiors · Mr. Ajmal, Nadapuram · 10-May-2026').then(() => {
+    const btn = document.querySelector('.btn-solid');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    btn.style.background = '#2e7d52';
+    btn.style.color = '#fff';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
